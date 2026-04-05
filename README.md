@@ -1,10 +1,22 @@
-# Pumpkin Classification Project
+# Pumpkin Price Prediction using Linear Regression
 
-This project uses the dataset from [Microsoft ML-For-Beginners](https://github.com/microsoft/ML-For-Beginners).
+## 1️⃣ Project Overview
+This project predicts pumpkin prices using historical pricing and characteristics.  
+We focus on **Linear Regression** to capture the relationship between pumpkin features and price.
 
-Repository contains:
-- My code for pumpkin classification
+### Goal
+- Predict pumpkin prices based on **City, Package, Variety, Date, Item Size, Low Price, High Price, and Origin**.  
+- Understand which features affect pricing the most.  
 
-The dataset itself is hosted on the original repository.
+### Dataset
+- Rows: 1757  
+- Columns: 26 ('City Name', 'Package', 'Variety', 'Date', 'Low Price', 'High Price',e.g.)  
+- This project uses the dataset from [Microsoft ML-For-Beginners](https://github.com/microsoft/ML-For-Beginners).
 
-![WhatsApp Image 2026-03-31 at 7 56 25 PM](https://github.com/user-attachments/assets/973a2c3f-13dd-47de-8f59-a3b088fbd35c)
+### Dataset Preview
+<img width="1635" height="324" alt="Screenshot 2026-04-05 142122" src="https://github.com/user-attachments/assets/6b21d29c-a390-4af3-af95-4cd37943703b" />
+
+
+
+
+
