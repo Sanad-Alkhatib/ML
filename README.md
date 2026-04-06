@@ -6,7 +6,12 @@ We focus on **Linear Regression** to capture the relationship between pumpkin fe
 
 ### Goal
 - Predict pumpkin prices based on **City, Package, Variety, Date, Item Size, Low Price, High Price, and Origin**.  
-- Understand which features affect pricing the most.  
+- Understand which features affect pricing the most.
+
+
+### ⚠️ Note:
+'Low Price' is highly correlated with 'High Price', which may introduce data leakage.
+However, it was intentionally included to help the model capture price range behavior.
 
 ### Dataset
 - Rows: 1757  
