@@ -255,7 +255,31 @@ We explored the data using:
 - Correlation heatmap  
 <img width="608" height="528" alt="image" src="https://github.com/user-attachments/assets/da2b53b5-9d54-4d54-b946-ba338451e8a7" />
 
+---
 
+## Preparing Data for Model
+
+We selected features:
+
+- City Name  
+- Package  
+- Variety  
+- Origin  
+- Item_Size_Num  
+- Year  
+- Month  
+- Day  
+- Low Price  
+
+Then applied **One-Hot Encoding**.
+
+### Why?
+
+Because Logistic Regression requires numerical input.
+###
+X = df[['City Name', 'Package', 'Variety', 'Origin', 'Item_Size_Num', 'Year', 'Month', 'Day', 'Low Price']]
+X = pd.get_dummies(X, columns=['City Name', 'Package', 'Variety', 'Origin'], drop_first=True)
+y = df['Price_Category']
 
 
 
