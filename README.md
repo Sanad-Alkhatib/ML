@@ -243,21 +243,17 @@ df['Price_Category'] = df['High Price'].apply(lambda x: 1 if x > threshold else 
 
 We explored the data using:
 
-- Price distribution  
-- City distribution  
-- Variety distribution  
+- Price distribution
+<img width="571" height="455" alt="image" src="https://github.com/user-attachments/assets/344ea826-b2df-4e0c-9d74-9a5e19987245" />
+
+- City distribution
+<img width="571" height="554" alt="image" src="https://github.com/user-attachments/assets/d01ed1b4-cfc5-4468-a65d-85cc38645502" />
+
+- Variety distribution
+<img width="571" height="544" alt="image" src="https://github.com/user-attachments/assets/7092042d-1a0f-4f35-8c8e-1436975bff81" />
+
 - Correlation heatmap  
-
-
-###<img width="571" height="455" alt="image" src="https://github.com/user-attachments/assets/344ea826-b2df-4e0c-9d74-9a5e19987245" />
-
-###<img width="571" height="554" alt="image" src="https://github.com/user-attachments/assets/d01ed1b4-cfc5-4468-a65d-85cc38645502" />
-
-
-###<img width="571" height="544" alt="image" src="https://github.com/user-attachments/assets/7092042d-1a0f-4f35-8c8e-1436975bff81" />
-
-
-###<img width="608" height="528" alt="image" src="https://github.com/user-attachments/assets/da2b53b5-9d54-4d54-b946-ba338451e8a7" />
+<img width="608" height="528" alt="image" src="https://github.com/user-attachments/assets/da2b53b5-9d54-4d54-b946-ba338451e8a7" />
 
 
 
