@@ -2,7 +2,7 @@
 
 ## 1️⃣ Project Overview
 This project predicts pumpkin prices using historical pricing and characteristics.  
-We focus on **Linear Regression** to capture the relationship between pumpkin features and price.
+We focus on **Logistic Regression** to capture the relationship between pumpkin features and price.
 
 ### Goal
 - Predict pumpkin prices based on **City, Package, Variety, Date, Item Size, Low Price, High Price, and Origin**.  
