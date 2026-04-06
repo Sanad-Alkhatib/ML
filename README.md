@@ -127,3 +127,85 @@ We converted sizes into numbers:
 
 Models only understand numbers, not text.
 
+### text_columns = ['City Name', 'Package', 'Variety', 'Origin', 'Item Size']
+for col in text_columns:
+    df[col] = df[col].fillna('Unknown')
+
+
+### df['High Price'] = df['High Price'].fillna(df['High Price'].mean())
+df['Low Price'] = df['Low Price'].fillna(df['Low Price'].mean())
+
+---
+
+### Handling Missing Size
+
+We replaced missing values using **median**.
+
+### Why?
+
+Median is better when data contains outliers.
+
+---
+
+### Removing Outliers
+
+We used **IQR method** on 'High Price'.
+
+### Why?
+
+Outliers can negatively affect model performance.
+### 
+Q1 = df['High Price'].quantile(0.25)
+Q3 = df['High Price'].quantile(0.75)
+IQR = Q3 - Q1
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+df = df[(df['High Price'] >= lower_bound) & (df['High Price'] <= upper_bound)]
+
+---
+
+### Date Processing
+
+We converted `Date` and extracted:
+
+- Year  
+- Month  
+- Day  
+
+### Why?
+
+To allow the model to learn **seasonal patterns**.
+
+### 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
