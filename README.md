@@ -177,18 +177,87 @@ We converted `Date` and extracted:
 To allow the model to learn **seasonal patterns**.
 
 ### 
+df['Date'] = pd.to_datetime(df['Date'], format='%m/%d/%y')
+df['Year'] = df['Date'].dt.year
+df['Month'] = df['Date'].dt.month
+df['Day'] = df['Date'].dt.day
+
+---
+
+### Filtering Pumpkin Varieties
+
+We selected only:
+
+- HOWDEN TYPE  
+- PIE TYPE  
+- MINIATURE  
+- FAIRYTALE
+  
+### Why?
+
+This is what the supervisor wants because he believes that the other types will cause a bias problem, and these are the most important and common types.
+
+---
+### Handling Imbalanced Data
+
+We increased FAIRYTALE samples by ~52%.
+
+### Why?
+
+Because it had fewer samples compared to other varieties.
+
+### 
+fairytale_rows = df[df['Variety'] == 'FAIRYTALE']
+n_add = int(len(fairytale_rows) * 0.52)
+fairytale_extra = fairytale_rows.sample(n=n_add, replace=True, random_state=42)
+df = pd.concat([df, fairytale_extra], ignore_index=True)
+
+###
+Variety
+HOWDEN TYPE    542
+PIE TYPE       467
+MINIATURE      310
+FAIRYTALE      200
+Name: count, dtype: int64
+
+---
+
+## Target Variable
+
+We created a new column:
+
+- 1 → price above average  
+- 0 → price below average  
+
+### Why?
+
+To convert the problem into a **classification task**.
+
+### 
+threshold = df['High Price'].mean()
+df['Price_Category'] = df['High Price'].apply(lambda x: 1 if x > threshold else 0)
+
+---
+
+## Data Visualization
+
+We explored the data using:
+
+- Price distribution  
+- City distribution  
+- Variety distribution  
+- Correlation heatmap  
 
 
+###<img width="571" height="455" alt="image" src="https://github.com/user-attachments/assets/344ea826-b2df-4e0c-9d74-9a5e19987245" />
+
+###<img width="571" height="554" alt="image" src="https://github.com/user-attachments/assets/d01ed1b4-cfc5-4468-a65d-85cc38645502" />
 
 
+###<img width="571" height="544" alt="image" src="https://github.com/user-attachments/assets/7092042d-1a0f-4f35-8c8e-1436975bff81" />
 
 
-
-
-
-
-
-
+###<img width="608" height="528" alt="image" src="https://github.com/user-attachments/assets/da2b53b5-9d54-4d54-b946-ba338451e8a7" />
 
 
 
