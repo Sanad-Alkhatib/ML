@@ -1,4 +1,4 @@
-# Pumpkin Price Prediction using Linear Regression
+# Pumpkin Price Classification using Logistic Regression
 
 ## 1️⃣ Project Overview
 This project predicts pumpkin prices using historical pricing and characteristics.  
@@ -104,8 +104,30 @@ Because many columns had:
 - Because the supervisor requested this.
 - Too many missing values  
 - No useful information
-
+  
+'''python
 df = df[['Date', 'City Name', 'Package', 'Variety', 'Origin', 'Item Size', 'Low Price', 'High Price']]
+'''
+
+---
+
+### Handling Missing Values
+
+- Text columns → filled with '"Unknown"'  
+- Numeric columns → filled with **mean values**
+
+### Why?
+
+Machine Learning models cannot handle missing values.
+
+'''python
+text_columns = ['City Name', 'Package', 'Variety', 'Origin', 'Item Size']
+for col in text_columns:
+    df[col] = df[col].fillna('Unknown')
+
+df['High Price'] = df['High Price'].fillna(df['High Price'].mean())
+df['Low Price'] = df['Low Price'].fillna(df['Low Price'].mean())
+'''
 
 ---
 
@@ -127,13 +149,21 @@ We converted sizes into numbers:
 
 Models only understand numbers, not text.
 
-### text_columns = ['City Name', 'Package', 'Variety', 'Origin', 'Item Size']
-for col in text_columns:
-    df[col] = df[col].fillna('Unknown')
+'''python
+levels = ['sml', 'med', 'med-lge', 'lge', 'xlge', 'jbo', 'exjbo']
+size_mapping = {size: i+1 for i, size in enumerate(levels)}
 
+df['Item_Size_Num'] = df['Item Size'].map(size_mapping)
 
-### df['High Price'] = df['High Price'].fillna(df['High Price'].mean())
-df['Low Price'] = df['Low Price'].fillna(df['Low Price'].mean())
+print(df[['Item Size', 'Item_Size_Num']].head(5))
+'''
+### Results
+Item Size  Item_Size_Num
+0       lge            4.0
+1       lge            4.0
+2       med            2.0
+3       med            2.0
+4       lge            4.0
 
 ---
 
@@ -154,13 +184,14 @@ We used **IQR method** on 'High Price'.
 ### Why?
 
 Outliers can negatively affect model performance.
-### 
+'''python
 Q1 = df['High Price'].quantile(0.25)
 Q3 = df['High Price'].quantile(0.75)
 IQR = Q3 - Q1
 lower_bound = Q1 - 1.5 * IQR
 upper_bound = Q3 + 1.5 * IQR
 df = df[(df['High Price'] >= lower_bound) & (df['High Price'] <= upper_bound)]
+'''
 
 ---
 
@@ -176,11 +207,12 @@ We converted `Date` and extracted:
 
 To allow the model to learn **seasonal patterns**.
 
-### 
+'''python
 df['Date'] = pd.to_datetime(df['Date'], format='%m/%d/%y')
 df['Year'] = df['Date'].dt.year
 df['Month'] = df['Date'].dt.month
 df['Day'] = df['Date'].dt.day
+'''
 
 ---
 
@@ -206,13 +238,14 @@ We increased FAIRYTALE samples by ~52%.
 
 Because it had fewer samples compared to other varieties.
 
-### 
+'''python
 fairytale_rows = df[df['Variety'] == 'FAIRYTALE']
 n_add = int(len(fairytale_rows) * 0.52)
 fairytale_extra = fairytale_rows.sample(n=n_add, replace=True, random_state=42)
 df = pd.concat([df, fairytale_extra], ignore_index=True)
+'''
+### Results
 
-###
 Variety
 HOWDEN TYPE    542
 PIE TYPE       467
@@ -233,9 +266,10 @@ We created a new column:
 
 To convert the problem into a **classification task**.
 
-### 
+'''python
 threshold = df['High Price'].mean()
 df['Price_Category'] = df['High Price'].apply(lambda x: 1 if x > threshold else 0)
+'''
 
 ---
 
@@ -276,10 +310,11 @@ Then applied **One-Hot Encoding**.
 ### Why?
 
 Because Logistic Regression requires numerical input.
-###
+'''python
 X = df[['City Name', 'Package', 'Variety', 'Origin', 'Item_Size_Num', 'Year', 'Month', 'Day', 'Low Price']]
 X = pd.get_dummies(X, columns=['City Name', 'Package', 'Variety', 'Origin'], drop_first=True)
 y = df['Price_Category']
+'''
 
 ---
 
@@ -296,10 +331,12 @@ We split the data into:
 - Training → learn  
 - Validation → tune  
 - Testing → final evaluation
-### 
+  
+'''python
 from sklearn.model_selection import train_test_split
 X_train, X_temp, y_train, y_temp = train_test_split( X, y, test_size=0.3, random_state=42, stratify=y)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42, stratify=y_temp)
+'''
 
 ---
 
@@ -307,7 +344,6 @@ X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, r
 
 We trained the model using:
 
-'''python
 LogisticRegression(max_iter=1000)
 
 ### Why?
@@ -315,10 +351,11 @@ LogisticRegression(max_iter=1000)
 Simple and effective for classification
 Works well with structured data
 
-###
+'''python
 from sklearn.linear_model import LogisticRegression
 model = LogisticRegression(max_iter=1000)
 model.fit(X_train, y_train)
+'''
 
 ---
 
@@ -332,10 +369,10 @@ We evaluated using:
 
 ### Results
 
-Accuracy: 0.956140350877193
-Precision: 0.9366197183098591
-Recall: 0.9925373134328358
-F1 Score: 0.9637681159420289
+- Accuracy: 0.956140350877193
+- Precision: 0.9366197183098591
+- Recall: 0.9925373134328358
+- F1 Score: 0.9637681159420289
 
 ---
 
