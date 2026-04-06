@@ -281,15 +281,70 @@ X = df[['City Name', 'Package', 'Variety', 'Origin', 'Item_Size_Num', 'Year', 'M
 X = pd.get_dummies(X, columns=['City Name', 'Package', 'Variety', 'Origin'], drop_first=True)
 y = df['Price_Category']
 
+---
 
+## Train / Validation / Test Split
 
+We split the data into:
 
+- 70% Training  
+- 15% Validation  
+- 15% Testing  
 
+### Why?
 
+- Training → learn  
+- Validation → tune  
+- Testing → final evaluation
+### 
+from sklearn.model_selection import train_test_split
+X_train, X_temp, y_train, y_temp = train_test_split( X, y, test_size=0.3, random_state=42, stratify=y)
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42, stratify=y_temp)
 
+---
 
+## Logistic Regression Model
 
+We trained the model using:
 
+'''python
+LogisticRegression(max_iter=1000)
+
+### Why?
+
+Simple and effective for classification
+Works well with structured data
+
+###
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+---
+
+## Model Evaluation
+
+We evaluated using:
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+
+### Results
+
+Accuracy: 0.956140350877193
+Precision: 0.9366197183098591
+Recall: 0.9925373134328358
+F1 Score: 0.9637681159420289
+
+---
+
+### Conclusion
+
+Data cleaning was essential due to missing values
+Feature engineering improved model performance
+Handling imbalance made the model more fair
+Logistic Regression successfully classified pumpkin prices
 
 
 
